@@ -15,14 +15,14 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 	GamePanel() {
 		tim = new Timer(1000 / 60, this);
-		go = new GameObject(20, 20, 20, 40);
 		titleFont = new Font("Arial", Font.PLAIN, 48);
 		smallFont = new Font("Arial", Font.PLAIN, 20);
+		rc = new Rocketship(250, 700, 50, 50);
 	}
 
 	Timer tim;
-	GameObject go;
 	int key;
+	Rocketship rc;
 	final int MENU_STATE = 0;
 	final int GAME_STATE = 1;
 	final int END_STATE = 2;
@@ -36,6 +36,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 	void updateGameState() {
 		currentState = GAME_STATE;
+		rc.update();
 	}
 
 	void updateEndState() {
@@ -56,6 +57,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	void drawGameState(Graphics g) {
 		g.setColor(new Color(250, 255, 255));
 		g.fillRect(0, 0, 500, 800);
+		rc.draw(g);
 	}
 
 	void drawEndState(Graphics g) {
@@ -72,6 +74,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
+		rc.update();
 		if (currentState == MENU_STATE) {
 			updateMenuState();
 		} else if (currentState == GAME_STATE) {
@@ -80,7 +83,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			updateEndState();
 		}
 		repaint();
-		go.update(key);
 
 	}
 
@@ -90,7 +92,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 	@Override
 	public void paintComponent(Graphics g) {
-		go.draw(g);
 		if (currentState == MENU_STATE) {
 			drawMenuState(g);
 		} else if (currentState == GAME_STATE) {
@@ -111,6 +112,21 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		// TODO Auto-generated method stub
 		key = e.getKeyCode();
 		System.out.println(key);
+		if (key == 65) {
+			rc.XV = -rc.speed;
+		}
+
+		else if (key == 68) {
+			rc.XV = rc.speed;
+		} 
+
+		if (key == 83) {
+			rc.YV = rc.speed;
+		}
+
+		else if (key == 87) {
+			rc.YV = -rc.speed;
+		} 
 		if (key == 10 || key == 13) {
 			if (currentState == END_STATE) {
 				currentState = MENU_STATE;
@@ -124,7 +140,15 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 	@Override
 	public void keyReleased(KeyEvent e) {
+		int rkey = e.getKeyCode();
 		// TODO Auto-generated method stub
+		if(rkey == 68 || rkey == 65) {
+			rc.XV = 0;
+		}
+		
+		if(rkey == 83 || rkey == 87) {
+			rc.YV = 0;
+		}
 
 	}
 }
