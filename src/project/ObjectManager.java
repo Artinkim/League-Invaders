@@ -61,15 +61,15 @@ public class ObjectManager {
 	}
 
 	void purgeObjects() {
-		for (Alien a : aliens) {
-			if (a.isAlive == false) {
-				aliens.remove(a);
+		for (int i = 0; i < aliens.size(); i++) {
+			if (aliens.get(i).isAlive == false) {
+				aliens.remove(aliens.get(i));
 			}
 		}
 
-		for (Projectile p : ps) {
-			if (p.isAlive == false) {
-				ps.remove(p);
+		for (int i = 0; i < ps.size(); i++) {
+			if (ps.get(i).isAlive == false) {
+				ps.remove(ps.get(i));
 			}
 		}
 	}
@@ -88,11 +88,10 @@ public class ObjectManager {
 					b.isAlive = false;
 					p.isAlive = false;
 					score++;
-					
-				
+
+				}
 			}
 		}
-	}
 	}
 
 }

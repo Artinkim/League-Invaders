@@ -7,7 +7,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -19,10 +22,27 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		smallFont = new Font("Arial", Font.PLAIN, 20);
 		rc = new Rocketship(250, 700, 50, 50);
 		om = new ObjectManager(rc);
+		try {
+
+			alienImg = ImageIO.read(this.getClass().getResourceAsStream("alien.png"));
+
+			rocketImg = ImageIO.read(this.getClass().getResourceAsStream("rocket.png"));
+
+			bulletImg = ImageIO.read(this.getClass().getResourceAsStream("bullet.png"));
+
+			spaceImg = ImageIO.read(this.getClass().getResourceAsStream("space.png"));
+
+		} catch (IOException e) {
+
+			// TODO Auto-generated catch block
+
+			e.printStackTrace();
+
+		}
 	}
 
 	Timer tim;
-	int key;
+
 	Rocketship rc;
 	final int MENU_STATE = 0;
 	final int GAME_STATE = 1;
@@ -31,6 +51,14 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	Font titleFont;
 	Font smallFont;
 	ObjectManager om;
+
+	public static BufferedImage alienImg;
+
+	public static BufferedImage rocketImg;
+
+	public static BufferedImage bulletImg;
+
+	public static BufferedImage spaceImg;
 
 	void updateMenuState() {
 		currentState = MENU_STATE;
@@ -60,11 +88,11 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		g.setFont(smallFont);
 		g.drawString("Press ENTER to start", 150, 350);
 		g.drawString("Press SPACE to instructions", 120, 450);
+	
 	}
 
 	void drawGameState(Graphics g) {
-		g.setColor(new Color(250, 255, 255));
-		g.fillRect(0, 0, 500, 800);
+		g.drawImage(GamePanel.spaceImg, 0, 0, null);
 		om.draw(g);
 	}
 
@@ -91,7 +119,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			updateEndState();
 		}
 		repaint();
-
 	}
 
 	void startGame() {
@@ -117,6 +144,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
+		int key;
 		// TODO Auto-generated method stub
 		key = e.getKeyCode();
 		System.out.println(key);
@@ -141,9 +169,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		}
 		if (key == 10 || key == 13) {
 			if (currentState == END_STATE) {
-				
-rc = new Rocketship(250, 700, 50, 50);
-om = new ObjectManager(rc);
+
+				rc = new Rocketship(250, 700, 50, 50);
+				om = new ObjectManager(rc);
 				currentState = MENU_STATE;
 			} else if (currentState == GAME_STATE) {
 				currentState = END_STATE;
