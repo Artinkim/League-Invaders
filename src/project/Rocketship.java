@@ -13,6 +13,7 @@ int YV;
 		speed = 5;
 	}
 	void update() {
+super.update();
 x+=XV;
 y+=YV;
 }

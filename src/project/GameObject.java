@@ -1,7 +1,7 @@
 package project;
 
 import java.awt.Graphics;
-
+import java.awt.Rectangle;
 import java.awt.event.KeyListener;
 
 public class GameObject {
@@ -9,16 +9,19 @@ public class GameObject {
 	int y;
 	int width;
 	int height;
+	boolean  isAlive = true;
+	Rectangle collisionBox;
 
 	GameObject(int a, int b, int c, int d) {
 		x = a;
 		y = b;
 		width = c;
 		height = d;
+		collisionBox = new Rectangle(x,y,width,height);
 	}
 
 	void update() {
-
+	collisionBox.setBounds(x, y, width, height);
 	}
 
 	void draw(Graphics g) {
